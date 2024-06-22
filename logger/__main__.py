@@ -16,6 +16,19 @@ VERB<2 will display only errors
 #Controlls which messages should be displayed
 VERBOSITY_LEVEL = 1
 
+def set_verbosity(val):
+    """
+    sets the verbosity level
+    """
+    global VERBOSITY_LEVEL;
+    VERBOSITY_LEVEL = val
+
+def get_verbosity():
+    """
+    returns verbosity value
+    """
+    return VERBOSITY_LEVEL
+
 def log_mess(message, layer = 0):
     """
     prints messages in log format
