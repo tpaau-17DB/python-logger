@@ -1,5 +1,5 @@
 """
 Python logger script.
-
-This file is left empty intentionally.
 """
+
+from logger.logger import log_mess, log_warn, log_err, get_verbosity, set_verbosity
