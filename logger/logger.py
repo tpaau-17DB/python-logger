@@ -17,6 +17,8 @@ no matter its priority
 
 Logger will add date and time to all messages if
 PRINT_DATETIME is set to true.
+
+DATETIME_FORMAT determines in what format should date be displayed
 """
 
 from datetime import datetime as dt
@@ -27,20 +29,39 @@ VERBOSITY_LEVEL = 1
 #When set to true logger adds datetime to every message
 PRINT_DATETIME = True
 
+#The format in which datetime is printed
+DATETIME_FORMAT = '%H:%M:%S'
 
-def set_print_datetime(switch):
+
+def set_datetime_format(value):
     """
-    Sets PRINT_DATETIME
+    sets DATETIME_FORMAT
+    """
+    global DATETIME_FORMAT
+    DATETIME_FORMAT = value
+
+
+def set_print_datetime(value):
+    """
+    sets PRINT_DATETIME
     """
     global PRINT_DATETIME
-    PRINT_DATETIME = switch
+    PRINT_DATETIME = value
 
-def set_verbosity(val):
+
+def set_verbosity(value):
     """
     sets the verbosity level
     """
     global VERBOSITY_LEVEL
-    VERBOSITY_LEVEL = val
+    VERBOSITY_LEVEL = value
+
+
+def get_datetime_format():
+    """
+    returns DATETIME_FORMAT
+    """
+    return DATETIME_FORMAT
 
 
 def get_verbosity():
@@ -55,7 +76,7 @@ def _get_datetime():
     Returns datetime in printable format
     """
     if PRINT_DATETIME:
-        return f"[{dt.now().strftime('%H:%M:%S')}] "
+        return f"[{dt.now().strftime(DATETIME_FORMAT)}] "
     return ""
 
 def log_mess(message, layer=0, override_prior=False):
