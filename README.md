@@ -4,10 +4,6 @@ git repo: https://github.com/mikolajArchUser/python-logger
 
 Python logger package that can be used to debug or in the finished project.
 
-## Dependencies
-
-The program does not require any specific packages yet.
-
 ## Installing
 
 To download git repo you can run:
