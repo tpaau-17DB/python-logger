@@ -16,7 +16,13 @@ To download git repo you can run:
 git clone https://github.com/mikolajArchUser/python-logger
 ```
 
-and then install with pip:
+Go to the downloaded repo with:
+
+```
+cd python-logger
+```
+
+And finally install the package with pip:
 
 ```
 pip install .
