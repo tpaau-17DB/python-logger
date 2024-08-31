@@ -1,38 +1,45 @@
 """
-Logger script that can be used to debug or in final project
+Logger script for handling log formatting and filtering
 
-log_mess prints message in '[LOG] <message>' format
-the same applies for log_warn and log_err, but [LOG]
-is replaced by [WARN] and [ERR] respectively
+log_deb, log_mess, log_warn and log_err are used to
+print out messages in different formats
 
-VERBOSITY_LEVEL controlls which messages should be
-displayed and which should be discarded
+VERBOSITY_LEVEL filters logs based on their importance:
+    -all logs for 0
+    -all logs except debug ones for 1
+    -only warnings and errors for 2 (default)
+    -only errors will be displayed for 3
+    -values greater than 3 mute all logs (quiet mode)
 
-VERB=0 will display every log
-VERB=1 will display only warnings and errors
-VERB<2 will display only errors
+Passing override_prior=True to a function will print the message ignoring It's priority
 
-Passing override_prior=True to a function will print log
-no matter its priority
 
-Logger will add date and time to all messages if
-PRINT_DATETIME is set to true.
 
-DATETIME_FORMAT determines in what format should date be displayed
+Logger will add date and time to all messages if PRINT_DATETIME is set to true.
+
+DATETIME_FORMAT determines the format in which datetime is printed
 """
 
 from datetime import datetime as dt
 
-#Controlls which messages should be displayed
-VERBOSITY_LEVEL = 1
+# Controlls log filtering
+VERBOSITY_LEVEL = 2
 
-#When set to true logger adds datetime to every message
+# When set to true datetime will be added to every message
 PRINT_DATETIME = True
 
-#The format in which datetime is printed
+# The format in which datetime is printed
 DATETIME_FORMAT = '%H:%M:%S'
 
+# CONST VALUES
+BLUE = "\033[34m"
+GREEN = "\033[92m"
+YELLOW = "\033[33m"
+RED = "\033[91m"
+EXT = "\033[0m"
 
+
+# SETTERS
 def set_datetime_format(value):
     """
     sets DATETIME_FORMAT
@@ -57,6 +64,7 @@ def set_verbosity(value):
     VERBOSITY_LEVEL = value
 
 
+# GETTERS
 def get_datetime_format():
     """
     returns DATETIME_FORMAT
@@ -71,36 +79,48 @@ def get_verbosity():
     return VERBOSITY_LEVEL
 
 
+# INTERNAL FUNCTIONS
 def _get_datetime():
     """
-    Returns datetime in printable format
+    Returns current, formatted datetime
     """
     if PRINT_DATETIME:
         return f"[{dt.now().strftime(DATETIME_FORMAT)}] "
     return ""
 
-def log_mess(message, layer=0, override_prior=False):
+
+# METHODS
+def log_deb(message, tabs=0, override_prior=False):
     """
-    prints messages in log format
+    used to print out debug info
     """
     if VERBOSITY_LEVEL > 0 and not override_prior:
         return
-    print(" " * 2 * layer + f"\033[92m[LOG]\033[0m {_get_datetime()}{message}")
+    print(" " * 2 * tabs + f"{BLUE}[DEB]{EXT} {_get_datetime()}{message}")
 
 
-def log_warn(message, layer=0, override_prior=False):
+def log_mess(message, tabs=0, override_prior=False):
     """
-    prints messages in warning format
+    prints standard, informative logs
     """
     if VERBOSITY_LEVEL > 1 and not override_prior:
         return
-    print(" " * 2 * layer + f"\033[33m[WARN]\033[0m {_get_datetime()}{message}")
+    print(" " * 2 * tabs + f"{GREEN}[LOG]{EXT} {_get_datetime()}{message}")
 
 
-def log_err(message, layer=0, override_prior=False):
+def log_warn(message, tabs=0, override_prior=False):
     """
-    prints messages in error format
+    prints warnings
     """
     if VERBOSITY_LEVEL > 2 and not override_prior:
         return
-    print(" " * 2 * layer + f"\033[91m[ERR]\033[0m {_get_datetime()}{message}")
+    print(" " * 2 * tabs + f"{YELLOW}[WARN]{EXT} {_get_datetime()}{message}")
+
+
+def log_err(message, tabs=0, override_prior=False):
+    """
+    prints errors
+    """
+    if VERBOSITY_LEVEL > 3 and not override_prior:
+        return
+    print(" " * 2 * tabs + f"{RED}[ERR]{EXT}{_get_datetime()}{message}")
