@@ -2,10 +2,10 @@ from setuptools import setup
 
 setup(
     name='logger',
-    version='1.2.2',
-    author_email='nicholas.neubauer.developer@gmail.com',
-    description='Python logger package that can be used to debug or in the finished projects.',
-    url='https://github.com/mikolajArchUser/python-logger',
+    version='1.2.3',
+    author_email='mikolaj_archusr@tutamail.com',
+    description='Python script for handling log formatting and filtering.',
+    url='https://github.com/tpaau-17DB/python-logger',
     packages=['logger'],
     install_requires=[]
 )
