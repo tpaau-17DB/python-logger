@@ -69,6 +69,9 @@ def set_verbosity(value):
     """
     sets the VERBOSITY_LEVEL
     """
+    if not value == 0 and not value == 1 and not value == 2 and not value == 3:
+        log_err("Failed to set verbosity! Value must be between 0 and 3.")
+
     global VERBOSITY_LEVEL
     if isinstance(value, int):
         VERBOSITY_LEVEL = value
@@ -105,7 +108,7 @@ def log_deb(message, tabs=0, override_prior=False):
     """
     Used to print debug info
     """
-    if VERBOSITY_LEVEL > 0 and not override_prior:
+    if VERBOSITY_LEVEL == 0 and not override_prior:
         return
     print(" " * 2 * tabs + f"{BLUE}[DEB]{EXT} {_get_datetime()}{message}")
 
