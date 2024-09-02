@@ -100,39 +100,35 @@ def _get_datetime():
         return f"[{dt.now().strftime(DATETIME_FORMAT)}] "
     return ""
 
-
 # LOG METHODS
 def log_deb(message, tabs=0, override_prior=False):
     """
     Used to print debug info
     """
-    if VERBOSITY_LEVEL > 1 and not override_prior:
+    if VERBOSITY_LEVEL > 0 and not override_prior:
         return
     print(" " * 2 * tabs + f"{BLUE}[DEB]{EXT} {_get_datetime()}{message}")
-
 
 def log_mess(message, tabs=0, override_prior=False):
     """
     prints messages
     """
-    if VERBOSITY_LEVEL > 2 and not override_prior:
+    if VERBOSITY_LEVEL > 1 and not override_prior:
         return
     print(" " * 2 * tabs + f"{GREEN}[LOG]{EXT} {_get_datetime()}{message}")
 
-
 def log_warn(message, tabs=0, override_prior=False):
     """
-    prints warings
+    prints warnings
     """
-    if VERBOSITY_LEVEL > 3 and not override_prior:
+    if VERBOSITY_LEVEL > 2 and not override_prior:
         return
     print(" " * 2 * tabs + f"{YELLOW}[WARN]{EXT} {_get_datetime()}{message}")
-
 
 def log_err(message, tabs=0, override_prior=False):
     """
     prints errors
     """
-    if VERBOSITY_LEVEL > 4 and not override_prior:
+    if VERBOSITY_LEVEL > 3 and not override_prior:
         return
     print(" " * 2 * tabs + f"{RED}[ERR]{EXT} {_get_datetime()}{message}")
