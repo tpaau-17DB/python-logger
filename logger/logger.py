@@ -21,13 +21,13 @@ DATETIME_FORMAT is the format in which datetime is printed.
 
 from datetime import datetime as dt
 
-#Controlls which messages should be displayed
+# Controlls which messages should be displayed
 VERBOSITY_LEVEL = 2
 
-#When set to True logger adds datetime to every message
+# When set to True logger adds datetime to every message
 PRINT_DATETIME = False
 
-#The format in which datetime is printed
+# The format in which datetime is printed
 DATETIME_FORMAT = '%H:%M:%S'
 
 
@@ -108,7 +108,7 @@ def log_deb(message, tabs=0, override_prior=False):
     """
     Used to print debug info
     """
-    if VERBOSITY_LEVEL == 0 and not override_prior:
+    if VERBOSITY_LEVEL != 0 and not override_prior:
         return
     print(" " * 2 * tabs + f"{BLUE}[DEB]{EXT} {_get_datetime()}{message}")
 
