@@ -21,7 +21,9 @@ Logger will add date and time to all messages if PRINT_DATETIME is set to True (
 DATETIME_FORMAT is the format in which datetime is printed.
 """
 
+
 from datetime import datetime as dt
+
 
 # Controlls which messages should be displayed
 VERBOSITY_LEVEL = 2
@@ -34,6 +36,9 @@ DATETIME_FORMAT = '%H:%M:%S'
 
 # Adds spacing to all logs
 GLOBAL_TABS = 0
+
+# Disables printing in color
+NOCOLOR = False
 
 
 # CONST VALUES
@@ -54,7 +59,6 @@ def set_global_tabs(value):
 
     global GLOBAL_TABS
     GLOBAL_TABS = value
-
 
 def set_datetime_format(value):
     """
@@ -78,6 +82,16 @@ def set_print_datetime(value):
     global PRINT_DATETIME
     PRINT_DATETIME = value
 
+def set_nocolor(value):
+    """
+    sets NOCOLOR
+    """
+    if not isinstance(value, bool):
+        log_err(f"Expected boolean, got {type(value)}. Ignoring request.")
+        return
+
+    global NOCOLOR
+    NOCOLOR = value
 
 def set_verbosity(value):
     """
@@ -110,6 +124,32 @@ def get_verbosity():
     return VERBOSITY_LEVEL
 
 
+# LOG METHODS
+def log_deb(message, tabs=0, override_prior=False):
+    """
+    Used to print debug info
+    """
+    _print_log(0, override_prior, message, tabs)
+
+def log_inf(message, tabs=0, override_prior=False):
+    """
+    prints informative messages
+    """
+    _print_log(1, override_prior, message, tabs)
+
+def log_warn(message, tabs=0, override_prior=False):
+    """
+    prints warnings
+    """
+    _print_log(2, override_prior, message, tabs)
+
+def log_err(message, tabs=0, override_prior=False):
+    """
+    prints errors
+    """
+    _print_log(3, override_prior, message, tabs)
+
+
 # INTERNAL METHODS
 def _get_datetime():
     """
@@ -119,35 +159,39 @@ def _get_datetime():
         return f"[{dt.now().strftime(DATETIME_FORMAT)}] "
     return ""
 
-# LOG METHODS
-def log_deb(message, tabs=0, override_prior=False):
-    """
-    Used to print debug info
-    """
-    if VERBOSITY_LEVEL != 0 and not override_prior:
-        return
-    print(" " * 2 * (tabs + GLOBAL_TABS) + f"{BLUE}[DEB]{EXT} {_get_datetime()}{message}")
 
-def log_inf(message, tabs=0, override_prior=False):
+def _print_log(prior, override_prior, message, tabs):
     """
-    prints informative messages
+    Functon for handling log formatting and filtering
     """
-    if VERBOSITY_LEVEL > 1 and not override_prior:
-        return
-    print(" " * 2 * (tabs + GLOBAL_TABS) + f"{GREEN}[INF]{EXT} {_get_datetime()}{message}")
+    if prior == 0:
+        if VERBOSITY_LEVEL != 0 and not override_prior:
+            return
+        if not NOCOLOR:
+            print(" " * 2 * (tabs + GLOBAL_TABS) + f"{BLUE}[DEB]{EXT} {_get_datetime()}{message}")
+        else:
+            print(" " * 2 * (tabs + GLOBAL_TABS) + f"[DEB] {_get_datetime()}{message}")
 
-def log_warn(message, tabs=0, override_prior=False):
-    """
-    prints warnings
-    """
-    if VERBOSITY_LEVEL > 2 and not override_prior:
-        return
-    print(" " * 2 * (tabs + GLOBAL_TABS) + f"{YELLOW}[WAR]{EXT} {_get_datetime()}{message}")
+    elif prior == 1:
+        if VERBOSITY_LEVEL > 1 and not override_prior:
+            return
+        if not NOCOLOR:
+            print(" " * 2 * (tabs + GLOBAL_TABS) + f"{GREEN}[INF]{EXT} {_get_datetime()}{message}")
+        else:
+            print(" " * 2 * (tabs + GLOBAL_TABS) + f"[INF] {_get_datetime()}{message}")
 
-def log_err(message, tabs=0, override_prior=False):
-    """
-    prints errors
-    """
-    if VERBOSITY_LEVEL > 3 and not override_prior:
-        return
-    print(" " * 2 * (tabs + GLOBAL_TABS) + f"{RED}[ERR]{EXT} {_get_datetime()}{message}")
+    elif prior == 2:
+        if VERBOSITY_LEVEL > 2 and not override_prior:
+            return
+        if not NOCOLOR:
+            print(" " * 2 * (tabs + GLOBAL_TABS) + f"{YELLOW}[WAR]{EXT} {_get_datetime()}{message}")
+        else:
+            print(" " * 2 * (tabs + GLOBAL_TABS) + f"[WAR] {_get_datetime()}{message}")
+
+    elif prior == 3:
+        if VERBOSITY_LEVEL > 3 and not override_prior:
+            return
+        if not NOCOLOR:
+            print(" " * 2 * (tabs + GLOBAL_TABS) + f"{RED}[ERR]{EXT} {_get_datetime()}{message}")
+        else:
+            print(" " * 2 * (tabs + GLOBAL_TABS) + f"[ERR] {_get_datetime()}{message}")

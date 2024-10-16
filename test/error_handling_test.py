@@ -1,5 +1,4 @@
 import logger as l
-from logger.logger import set_global_tabs
 
 print("----------test start----------")
 
@@ -18,5 +17,9 @@ l.set_datetime_format(True)
 
 print("\nattempting to set global tabs to an incorrect value")
 l.set_global_tabs("a")
+
+print("\nattempting to set nocolor to an incorrect value")
+l.set_nocolor("a")
+l.set_nocolor(5)
 
 print("----------test end----------")
