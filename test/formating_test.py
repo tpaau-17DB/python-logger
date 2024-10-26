@@ -17,4 +17,4 @@ l.log_inf("message", tabs = 2)
 l.log_warn("warning", tabs = 3)
 l.log_err("error", tabs = 4)
 
-print("----------test end----------")
+print("\n----------test end----------")

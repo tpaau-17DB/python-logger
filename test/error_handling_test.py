@@ -22,4 +22,8 @@ print("\nattempting to set nocolor to an incorrect value")
 l.set_nocolor("a")
 l.set_nocolor(5)
 
+print("\nattempting to set ENABLE_LOGGING to an incorrect value")
+l.toggle_logging(5)
+l.toggle_logging("a")
+
 print("----------test end----------")

@@ -40,6 +40,9 @@ GLOBAL_TABS = 0
 # Disables printing in color
 NOCOLOR = False
 
+# Enable logging
+ENABLE_LOGS = True
+
 
 # CONST VALUES
 BLUE = "\033[94m"
@@ -108,6 +111,17 @@ def set_verbosity(value):
     global VERBOSITY_LEVEL
     VERBOSITY_LEVEL = value
 
+def toggle_logging(enabled):
+    """
+    sets ENABLE_LOGS
+    """
+    if not isinstance(enabled, bool):
+        log_err(f"Expected boolean, got {type(enabled)}. Ignoring request.")
+        return
+
+    global ENABLE_LOGS
+    ENABLE_LOGS = enabled
+
 
 # GETTERS
 def get_datetime_format():
@@ -164,6 +178,9 @@ def _print_log(prior, override_prior, message, tabs):
     """
     Functon for handling log formatting and filtering
     """
+    if not ENABLE_LOGS and not override_prior:
+        return
+
     if prior == 0:
         if VERBOSITY_LEVEL != 0 and not override_prior:
             return
