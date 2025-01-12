@@ -1,32 +1,18 @@
 # python-logger
 
-git repo: https://github.com/tpaau-17DB/python-logger
-
 Python script for handling log formatting and filtering.
 
+
 ## Installing
-
-To download git repo you can run:
-
-```
-git clone https://github.com/tpaau-17DB/python-logger.git
-```
-
-Go to the downloaded repo with:
-
-```
-cd python-logger
-```
-
-And finally install the package with pip:
-
+To install the package, run:
 ```
 pip install .
 ```
 
+
 ## Running
 
-You can test if the script is installed correctly by running this python script:
+You can test if the script is installed correctly by running this script:
 
 ```
 import logger as l
