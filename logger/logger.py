@@ -3,7 +3,7 @@ Python script for handling log formatting and filtering.
 
 log_deb, log_inf, log_warn and log_err are used to print out messages in different formats.
 
-VERBOSITY_LEVEL controlls which messages should be displayed and which should be discarded:
+VERBOSITY_LEVEL controls which messages are displayed and which are discarded:
 VERB=0 will display every log
 VERB=1 will display all logs except debug ones
 VERB=2 will display only warnings and errors
@@ -11,21 +11,20 @@ VERB<3 will display only errors
 
 Passing override_prior=True to a function will display log ignoring It's priority.
 
-"tabs" variable adds spacing at the beggining of a log.
-One tab is equal to two spaces "  ", two tabs are four spaces etc.
+"tabs" variable adds spacing at the beginning of a log.
+One tab is equal to two spaces.
 
-GLOBAL_TABS works similarly to the tabs variable, but it affects all logs, not just the selected ones.
+GLOBAL_TABS works exactly like the tabs variable, but it affects all logs.
 
-Logger will add date and time to all messages if PRINT_DATETIME is set to True (off by default).
+Logger will add a datetime to all messages if PRINT_DATETIME is set to True (off by default).
 
 DATETIME_FORMAT is the format in which datetime is printed.
 """
 
-
 from datetime import datetime as dt
 
 
-# Controlls which messages should be displayed
+# Controls which messages should be displayed
 VERBOSITY_LEVEL = 2
 
 # When set to True logger adds datetime to every message
@@ -44,7 +43,7 @@ NOCOLOR = False
 ENABLE_LOGS = True
 
 
-# CONST VALUES
+# CONSTANT VALUES
 BLUE = "\033[94m"
 GREEN = "\033[92m"
 YELLOW = "\033[33m"
@@ -79,7 +78,7 @@ def set_print_datetime(value):
     sets PRINT_DATETIME
     """
     if not isinstance(value, bool):
-        log_err(f"Expected boolean, got {type(value)}. Ignoring request.")
+        log_err(f"Expected bool, got {type(value)}. Ignoring request.")
         return
 
     global PRINT_DATETIME
@@ -90,7 +89,7 @@ def set_nocolor(value):
     sets NOCOLOR
     """
     if not isinstance(value, bool):
-        log_err(f"Expected boolean, got {type(value)}. Ignoring request.")
+        log_err(f"Expected bool, got {type(value)}. Ignoring request.")
         return
 
     global NOCOLOR
@@ -101,7 +100,7 @@ def set_verbosity(value):
     sets the VERBOSITY_LEVEL
     """
     if not isinstance(value, int):
-        log_err(f"Expected integer, got {type(value)}. Ignoring request.")
+        log_err(f"Expected int, got {type(value)}. Ignoring request.")
         return
 
     if value < 0 or value > 3:
@@ -116,7 +115,7 @@ def toggle_logging(enabled):
     sets ENABLE_LOGS
     """
     if not isinstance(enabled, bool):
-        log_err(f"Expected boolean, got {type(enabled)}. Ignoring request.")
+        log_err(f"Expected bool, got {type(enabled)}. Ignoring request.")
         return
 
     global ENABLE_LOGS
@@ -125,16 +124,10 @@ def toggle_logging(enabled):
 
 # GETTERS
 def get_datetime_format():
-    """
-    returns DATETIME_FORMAT
-    """
     return DATETIME_FORMAT
 
 
 def get_verbosity():
-    """
-    returns verbosity value
-    """
     return VERBOSITY_LEVEL
 
 
@@ -176,7 +169,7 @@ def _get_datetime():
 
 def _print_log(prior, override_prior, message, tabs):
     """
-    Functon for handling log formatting and filtering
+    Function for handling log formatting and filtering
     """
     if not ENABLE_LOGS and not override_prior:
         return
@@ -204,6 +197,8 @@ def _print_log(prior, override_prior, message, tabs):
             print(" " * 2 * (tabs + GLOBAL_TABS) + f"{YELLOW}[WAR]{EXT} {_get_datetime()}{message}")
         else:
             print(" " * 2 * (tabs + GLOBAL_TABS) + f"[WAR] {_get_datetime()}{message}")
+
+    
 
     elif prior == 3:
         if VERBOSITY_LEVEL > 3 and not override_prior:
